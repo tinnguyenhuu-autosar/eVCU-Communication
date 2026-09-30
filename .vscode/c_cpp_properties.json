@@ -1,0 +1,84 @@
+{
+  "version": 4,
+  "configurations": [
+    {
+      "name": "STM32F103 COM",
+      "includePath": [
+        "${workspaceFolder}",
+        "${workspaceFolder}/autosar/include",
+        "${workspaceFolder}/Com_ECU/autosar/com",
+        "${workspaceFolder}/autosar/pdur",
+        "${workspaceFolder}/autosar/canif",
+        "${workspaceFolder}/autosar/can",
+        "${workspaceFolder}/Diag_ECU/autosar/cantp",
+        //"${workspaceFolder}/autosar/lin",
+        //"${workspaceFolder}/autosar/linif",
+        "${workspaceFolder}/config",
+        "${workspaceFolder}/spl/inc",
+        "${workspaceFolder}/spl/src",
+        "${workspaceFolder}/bsp/cmsis",
+        "${workspaceFolder}/Com_ECU/config"
+      ],
+      "defines": [
+        "USE_STDPERIPH_DRIVER",
+        "STM32F10X_MD"
+      ],
+      "compilerPath": "C:\\Program Files (x86)\\Arm\\GNU Toolchain mingw-w64-i686-arm-none-eabi\\bin\\arm-none-eabi-gcc.exe",
+      "compilerArgs": [
+        "-mcpu=cortex-m3",
+        "-mthumb"
+      ],
+      "cStandard": "c11",
+      "cppStandard": "c++17",
+      "intelliSenseMode": "gcc-arm",
+      "browse": {
+        "path": [
+          "${workspaceFolder}",
+          "${workspaceFolder}/autosar/include",
+          "${workspaceFolder}/Com_ECU/autosar/com",
+          "${workspaceFolder}/autosar/pdur",
+          "${workspaceFolder}/autosar/canif",
+          "${workspaceFolder}/autosar/can",
+          "${workspaceFolder}/Diag_ECU/autosar/cantp",
+          // "${workspaceFolder}/autosar/lin",
+          // "${workspaceFolder}/autosar/linif",
+          "${workspaceFolder}/config",
+          "${workspaceFolder}/spl/inc",
+          "${workspaceFolder}/spl/src",
+          "${workspaceFolder}/bsp/cmsis",
+          "${workspaceFolder}/Com_ECU/config"
+        ],
+        "limitSymbolsToIncludedHeaders": false
+      }
+    },
+    {
+      "name": "HALA SIM: COM",
+      "compilerPath": "",
+      "includePath": [
+        "${workspaceFolder}/.vscode/hala-sim-sdk/include",
+        "${workspaceFolder}/autosar/can",
+        "${workspaceFolder}/autosar/canif",
+        "${workspaceFolder}/autosar/cantp",
+        "${workspaceFolder}/autosar/com",
+        "${workspaceFolder}/autosar/dcm",
+        "${workspaceFolder}/autosar/include",
+        "${workspaceFolder}/autosar/lin",
+        "${workspaceFolder}/autosar/linif",
+        "${workspaceFolder}/autosar/pdur",
+        "${workspaceFolder}/bsp/cmsis",
+        "${workspaceFolder}/config",
+        "${workspaceFolder}/spl/inc",
+        "${workspaceFolder}/Com_ECU/config"
+
+      ],
+      "defines": [
+        "STM32F10X_MD",
+        "USE_STDPERIPH_DRIVER"
+      ],
+      "cStandard": "c11",
+      "cppStandard": "c++17",
+      "intelliSenseMode": "linux-clang-arm",
+      "halaSimManaged": true
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+HALA_SIM 1.0
+
+project "Student_ECU" {
+  id "student-ecu";
+  workspaceRoot ".";
+  description "HALA SIM workspace simulator";
+  createdAt "2026-09-26T12:36:07.759Z";
+  updatedAt "2026-09-26T12:36:07.759Z";
+}
+
+scene {
+  id "student-ecu-scene";
+  size 1650 900;
+}
+
+view main {
+  zoom 1;
+  pan 0 0;
+}

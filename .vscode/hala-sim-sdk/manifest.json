@@ -1,0 +1,18 @@
+{
+  "generatedBy": "HALA SIM",
+  "version": "STM32F10x SPL V3.5.0",
+  "modules": [
+    "stm32f10x_bkp",
+    "stm32f10x_cec",
+    "stm32f10x_crc",
+    "stm32f10x_dac",
+    "stm32f10x_dbgmcu",
+    "stm32f10x_flash",
+    "stm32f10x_fsmc",
+    "stm32f10x_iwdg",
+    "stm32f10x_pwr",
+    "stm32f10x_rtc",
+    "stm32f10x_sdio",
+    "stm32f10x_wwdg"
+  ]
+}
