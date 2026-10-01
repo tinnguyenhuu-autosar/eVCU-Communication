@@ -28,19 +28,27 @@ enum{
 
 typedef struct
 {
-    PduIdType   CanIfTxPduId;
+    PduIdType           CanIfTxPduId;
     Can_HwHandleType    Hth;
-    Can_IdType  CanId;
-    uint8   DlcMax;
+    Can_IdType          CanId;
+    uint8               DlcMax;
 } CanIf_TxPduCfgType;
 
 typedef struct
 {
-    PduIdType   CanIfRxPduId;
-    Can_HwHandleType Hrh;
-    Can_IdType CanId;
-    uint8   DlcMax;
+    PduIdType           CanIfRxPduId;
+    Can_HwHandleType    Hrh;
+    Can_IdType          CanId;
+    uint8               DlcMax;
+    CanIf_RxDestType    Dest;
+    PduIdType           DestPduId;
 } CanIf_RxPduCfgType;
+
+typedef enum
+{
+    CANIF_RX_DEST_PDUR = 0u,
+    CANIF_RX_DEST_CANTP = 1u
+} CanIf_RxDestType;
 
 /** CanIf Configuration
  *

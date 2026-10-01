@@ -173,8 +173,16 @@ void CanIf_RxIndication(Can_IdType CanId, const PduInfoType* PduInfoPtr)
         return;
     }
 
-    /*Chuyển RX indication lên PduR*/
-    PduR_CanIfRxIndication(cfg->CanIfRxPduId, PduInfoPtr);
+    if(cfg->Dest == CANIF_RX_DEST_CANTP)
+    {
+    #ifdef EVCU_DIAG_ECU
+        CanTp_RxIndication(cfg->DestPduId, PduInfoPtr);
+    #endif
+    }
+    else
+    {
+        PduR_CanIfRxIndication(cfg->DestPduId, PduInfoPtr);
+    }
 
 }
 
