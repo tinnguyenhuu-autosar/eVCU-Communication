@@ -46,7 +46,8 @@ static uint16 Com_NumSignals = 0u;
 #endif
 
 /* Shadow buffer cho từng I-PDU*/
-static uint8 Com_IPduBuf[COM_NUM_IPDUS * COM_MAX_IPDU_LEN];
+static uint8 Com_TxIPduBuf[COM_NUM_TX_IPDUS * COM_MAX_IPDU_LEN];
+static uint8 Com_RxIPduBuf[COM_NUM_RX_IPDUS * COM_MAX_IPDU_LEN];
 
 /* Helpers nội bộ: tra cứu I-PDU & lấy Buffer*/
 
@@ -76,9 +77,36 @@ static uint8* prv_get_ipdu_buf(PduIdType pduId, PduLengthType* outLen, Com_PduDi
     int16_t idx = prv_find_ipdu_index(pduId);
     if(idx < 0) {return NULL;}
 
-    if(outLen) *outLen = Com_IPduCfgPtr[(uint16)idx].Length;
-    if(outDir) *outDir = Com_IPduCfgPtr[(uint16)idx].direction;
-    return &Com_IPduBuf[(uint16)idx * COM_MAX_IPDU_LEN];
+    const Com_IPduCfgType* cfg = &Com_IPduCfgPtr[(uint16)idx];
+
+    if(outLen) *outLen = cfg->Length;
+    if(outDir) *outDir = cfg->direction;
+    if(cfg->direction == COM_PDU_DIR_TX)
+    {
+        /* TX I-Pdu: đếm riêng Tx index*/
+        uint16 txIdx = 0u;
+        for (uint16 i = 0u; i < (uint16)idx; ++i)
+        {
+            if (Com_IPduCfgPtr[i].direction == COM_PDU_DIR_TX)
+            {
+                txIdx++;
+            }
+        }
+        return &Com_TxIPduBuf[txIdx * COM_MAX_IPDU_LEN];
+    }
+    else
+    {
+        /* Rx I-Pdu: đếm riêng Rx index*/
+        uint16 rxIdx = 0u;
+        for (uint16 i = 0u; i < (uint16)idx; ++i)
+        {
+            if (Com_IPduCfgPtr[i].direction == COM_PDU_DIR_RX)
+            {
+                rxIdx++;
+            }
+        }
+        return &Com_RxIPduBuf[rxIdx * COM_MAX_IPDU_LEN];
+    }
 }
 
 /* Pack helper (đặt giá trị vào byte/bit cụ thể)*/
@@ -163,8 +191,11 @@ void Com_Init(const Com_ConfigType* ConfigPtr)
     Com_SignalCfgPtr = ConfigPtr->SignalCfg;
     Com_NumSignals = ConfigPtr->Numsignals;
 
-    /* Khởi tạo shadow buffer*/
-    (void)memset(Com_IPduBuf, 0, sizeof(Com_IPduBuf));
+    /* Khởi tạo Tx I-PDU buffer*/
+    (void)memset(Com_TxIPduBuf, 0, sizeof(Com_TxIPduBuf));
+
+    /* Khởi tạo Rx I-PDU buffer*/
+    (void)memset(Com_RxIPduBuf, 0, sizeof(Com_RxIPduBuf));
 }
 
 
@@ -262,7 +293,7 @@ Std_ReturnType Com_TriggerIPDUSend(PduIdType PduId)
 }
 
 /**
- * @brief Đọc giá trị signal từ shadow buffer của I-PDU
+ * @brief Đọc giá trị signal từ buffer của I-PDU
  * @param SignalId      Id của Signal
  * @param SignalDataPtr Con trỏ đích để lưu dữ liệu
  * @return uint8 E_OK/  COM_SERVICE_NOT_AVAILABLE

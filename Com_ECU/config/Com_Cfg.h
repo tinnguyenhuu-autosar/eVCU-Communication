@@ -26,6 +26,8 @@ extern "C"
 
 /*Số lượng */
 #define COM_NUM_IPDUS       (4u)
+#define COM_NUM_TX_IPDUS    (1u)
+#define COM_NUM_RX_IPDUS    (3u)
 #define COM_NUM_SIGNALS     (19u)
 #define COM_MAX_IPDU_LEN    (8u)
 
