@@ -54,6 +54,9 @@ Std_ReturnType PduR_DisableRouting(PduR_RoutingPathGroupIdType id);
 /** @brief Trạng thái hiện tại của PduR. */
 PduR_StateType PduR_GetState(void);
 
+/** @brief Gửi PDU từ DCM đến PduR. */
+Std_ReturnType PduR_DcmTransmit(PduIdType TxPduId, const PduInfoType* PduInfoPtr);
+
 #ifdef __cplusplus
 }
 #endif

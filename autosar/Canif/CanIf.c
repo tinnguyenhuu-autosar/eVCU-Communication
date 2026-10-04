@@ -18,6 +18,10 @@
 #include "Can.h"
 #include "PduR_CanIf.h"
 
+#ifdef CANIF_USE_CANTP
+#include "CanTp.h"
+#endif
+
 #include <stdint.h>
 #include <string.h>
 
@@ -126,7 +130,20 @@ void CanIf_TxConfirmation(PduIdType CanTxPduId)
 {
     if((s_inited == FALSE) || (prv_find_txpdu(CanTxPduId) == NULL)) {return;}
 
+    #ifdef CANIF_USE_CANTP
+    /**
+     * Diagnostic TX confirmation.
+     */
+    if((CanTxPduId == CanIfConf_Pdu_DiagRequest) || (CanTxPduId == CanIfConf_Pdu_DiagFunctional))
+    {
+        CanTp_TxConfirmation(CanTxPduId);
+        return;
+    }
+    #endif
 
+    /**
+     * Normal COM PDU confirmation.
+     */
     PduR_CanIfTxConfirmation(CanTxPduId);
 }
 
@@ -175,7 +192,9 @@ void CanIf_RxIndication(Can_IdType CanId, const PduInfoType* PduInfoPtr)
 
     if(cfg->Dest == CANIF_RX_DEST_CANTP)
     {
-    #ifdef EVCU_DIAG_ECU
+    #ifdef CANIF_USE_CANTP
+        extern void CanTp_RxIndication(PduIdType CanTpRxPduId, const PduInfoType* PduInfoPtr);
+
         CanTp_RxIndication(cfg->DestPduId, PduInfoPtr);
     #endif
     }

@@ -19,11 +19,17 @@ extern "C" {
 #define CANIF_NUM_RX_PDUS (1u)
 
 enum{
-    CanIfConf_Pdu_VehicleCmd = 0u,
-    CanIfConf_Pdu_BrakeCmd = 1u,
-    CanIfConf_Pdu_BodyCmd = 2u,
+    /* COM / eVCU*/
+    CanIfConf_Pdu_VehicleCmd        = 0u,
+    CanIfConf_Pdu_BrakeCmd          = 1u,
+    CanIfConf_Pdu_BodyCmd           = 2u,
 
-    CanIfConf_Pdu_EngineStatus = 3u
+    CanIfConf_Pdu_EngineStatus      = 3u,
+
+    /* Diag ECU*/
+    CanIfConf_Pdu_DiagRequest       = 4u,
+    CanIfConf_Pdu_DiagFunctional    = 5u,
+    CanIfConf_Pdu_DiagResponse      = 6u
 };
 
 typedef struct
@@ -34,6 +40,12 @@ typedef struct
     uint8               DlcMax;
 } CanIf_TxPduCfgType;
 
+typedef enum
+{
+    CANIF_RX_DEST_PDUR = 0u,
+    CANIF_RX_DEST_CANTP = 1u
+} CanIf_RxDestType;
+
 typedef struct
 {
     PduIdType           CanIfRxPduId;
@@ -43,12 +55,6 @@ typedef struct
     CanIf_RxDestType    Dest;
     PduIdType           DestPduId;
 } CanIf_RxPduCfgType;
-
-typedef enum
-{
-    CANIF_RX_DEST_PDUR = 0u,
-    CANIF_RX_DEST_CANTP = 1u
-} CanIf_RxDestType;
 
 /** CanIf Configuration
  *

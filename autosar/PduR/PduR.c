@@ -14,9 +14,6 @@
 #include "PduR.h"
 #include "PduR_Com.h"
 #include "PduR_CanIf.h"
-#ifdef PDUR_USE_CANTP
-#include "PduR_CanTp.h"
-#endif
 
 #include "Std_Types.h"
 #include "ComStack_Types.h"
@@ -142,7 +139,10 @@ PduR_StateType PduR_GetState(void)
 /* =========================================================
  * COM -> PduR -> CanIf
  * =======================================================*/
-Std_ReturnType PduR_ComTransmit(PduIdType ComTxPduId, const PduInfoType* PduInfoPtr)
+
+#ifdef PDUR_USE_COM
+
+ Std_ReturnType PduR_ComTransmit(PduIdType ComTxPduId, const PduInfoType* PduInfoPtr)
 {
 
     if (s_State == PDUR_UNINIT)
@@ -185,23 +185,17 @@ Std_ReturnType PduR_ComTransmit(PduIdType ComTxPduId, const PduInfoType* PduInfo
         case PDUR_DEST_CANIF:
             return CanIf_Transmit(dstId, PduInfoPtr);
 
-        #ifdef PDUR_USE_CANTP
-            case PDUR_DEST_CANTP:
-            /* Khai báo extern cho CanTp_Transmit nếu chưa include CanTp.h */
-            {
-                extern Std_ReturnType CanTp_Transmit(PduIdType CanTpTxSduId, const PduInfoType* CanTpTxInfoPtr);
-                return CanTp_Transmit(dstId, PduInfoPtr);
-            }
-        #endif
         default:
             return E_NOT_OK;
     }
 }
 
+
 /* =========================================================
  * CanIf -> PduR -> COM : RX
  * =======================================================*/
-void PduR_CanIfRxIndication(PduIdType CanIfRxPduId, const PduInfoType* PduInfoPtr)
+
+ void PduR_CanIfRxIndication(PduIdType CanIfRxPduId, const PduInfoType* PduInfoPtr)
 {
 
     if (s_State == PDUR_UNINIT || !s_RoutingEnabled)
@@ -233,7 +227,9 @@ void PduR_CanIfRxIndication(PduIdType CanIfRxPduId, const PduInfoType* PduInfoPt
 /* =========================================================
  * CanIf -> PduR -> COM : TX Confirmation
  * =======================================================*/
-void PduR_CanIfTxConfirmation(PduIdType CanIfTxPduId)
+
+
+ void PduR_CanIfTxConfirmation(PduIdType CanIfTxPduId)
 {
 
     if (s_State == PDUR_UNINIT || !s_RoutingEnabled)
@@ -246,16 +242,6 @@ void PduR_CanIfTxConfirmation(PduIdType CanIfTxPduId)
         return;
     }
 
-    #ifdef PDUR_USE_CANTP
-    /* Route CANTP Tx Confirmation */
-    if (CanIfTxPduId == 3 /* DiagTx */ || CanIfTxPduId == 4 /* DiagRx_FC */)
-    {
-        extern void CanTp_TxConfirmation(PduIdType CanTpTxPduId);
-        CanTp_TxConfirmation(0);
-        return;
-    }
-    #endif
-
     int32_t idx = prv_find_callback_route(PduR_CanIfTxConfRoutes, PDUR_NUM_CANIF_TXCONF_ROUTES, CanIfTxPduId);
 
     if (idx >= 0)
@@ -267,7 +253,9 @@ void PduR_CanIfTxConfirmation(PduIdType CanIfTxPduId)
 /* =========================================================
  * CanIf -> PduR -> COM : TriggerTransmit
  * =======================================================*/
-Std_ReturnType PduR_CanIfTriggerTransmit(PduIdType CanIfTxPduId, PduInfoType* PduInfoPtr)
+
+
+ Std_ReturnType PduR_CanIfTriggerTransmit(PduIdType CanIfTxPduId, PduInfoType* PduInfoPtr)
 {
     if (s_State == PDUR_UNINIT || !s_RoutingEnabled)
     {
@@ -294,6 +282,7 @@ Std_ReturnType PduR_CanIfTriggerTransmit(PduIdType CanIfTxPduId, PduInfoType* Pd
     return Com_TriggerTransmit(
         PduR_CanIfTrigTxRoutes[idx].DstPduId, PduInfoPtr);
 }
+#endif
 
 #ifdef PDUR_USE_CANTP
 /* =========================================================
@@ -322,10 +311,27 @@ PduLengthType* bufferSizePtr)
     return Dcm_CopyRxData(id, info, bufferSizePtr);
 }
 
+BufReq_ReturnType PduR_CanTpCopyTxData(PduIdType id, const PduInfoType* info,
+PduLengthType* availableDataPtr)
+{
+    /* Định tuyến gọi sang Dcm_CopyTxData */
+    return Dcm_CopyTxData(id, info, availableDataPtr);
+}
+
 void PduR_CanTpTxConfirmation(PduIdType TxPduId, NotifResultType Result)
 {
-    (void)TxPduId;
-    (void)Result;
-    /* Thực tế sẽ tra bảng và gọi Dcm_TxConfirmation() hoặc PDUR_COM_... */
+    /* Định tuyến sang Dcm_TpTxConfirmation */
+    Dcm_TxConfirmation(TxPduId, Result);
 }
+
+Std_ReturnType PduR_DcmTransmit(PduIdType TxPduId, const PduInfoType* PduInfoPtr)
+{
+    if(PduInfoPtr == NULL || PduInfoPtr->SduDataPtr == NULL)
+    {
+        return E_NOT_OK;
+    }
+
+    return CanTp_Transmit(TxPduId, PduInfoPtr);
+}
+
 #endif

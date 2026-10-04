@@ -26,6 +26,12 @@ BufReq_ReturnType PduR_CanTpCopyRxData(
     PduLengthType* bufferSizePtr
 );
 
+BufReq_ReturnType PduR_CanTpCopyTxData(
+    PduIdType id,
+    const PduInfoType* info,
+    PduLengthType* availableDataPtr
+);
+
 #ifdef __cplusplus
 }
 #endif

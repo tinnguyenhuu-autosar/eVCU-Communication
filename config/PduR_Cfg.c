@@ -10,8 +10,13 @@
 #include <stddef.h>
 
 #include "PduR_Cfg.h"
-#include "Com_Cfg.h"
 #include "CanIf_Cfg.h"
+
+#ifdef PDUR_USE_COM
+#include "Com_Cfg.h"
+#endif
+
+#ifdef PDUR_USE_COM
 
 /* COM TX Routes: COM => PduR => CanIf*/
 const PduR_Route1to1Type PduR_ComTxRoutes[PDUR_NUM_COM_TX_ROUTES] =
@@ -41,7 +46,12 @@ const PduR_CallbackRouteType PduR_CanIfTrigTxRoutes[PDUR_NUM_CANIF_TRIGTX_ROUTES
     { CanIfConf_Pdu_EngineStatus, ComConf_ComIPdu_EngineStatus }
 };
 
+#endif /* PDUR_USE_COM */
+
+
 /* ===== Post-Build Config ===== */
+
+#ifdef PDUR_USE_COM
 
 const PduR_PBConfigType PduR_ConfigPB =
 {
@@ -67,3 +77,20 @@ const PduR_PBConfigType PduR_ConfigPB =
 
     .ConfigId                 = 0u
 };
+
+#else
+
+/**
+ * Diagnostic ECU
+ */
+
+const PduR_PBConfigType PduR_ConfigPB =
+{
+    .ComTxRoutingTable        = NULL,
+    .CanIfRxRoutingTable      = NULL,
+    .CanIfTxConfRoutingTable  = NULL,
+    .CanIfTrigTxRoutingTable  = NULL,
+    .ConfigId                 = 0u
+};
+
+#endif
