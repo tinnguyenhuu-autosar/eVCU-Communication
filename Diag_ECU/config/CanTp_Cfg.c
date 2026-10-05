@@ -8,9 +8,9 @@ const CanTp_TxNSduCfgType CanTp_TxSduCfg[CANTP_NUM_TX_SDUS] =
 
         /*
          * Diagnostic request:
-         * CAN ID = 0x7E0
+         * CAN ID = 0x7E8
          */
-        .CanIfTxPduId = CanIfConf_Pdu_DiagRequest,
+        .CanIfTxPduId = CanIfConf_Pdu_DiagResponse,
 
         .PduRTxSduId = 0u,
 
@@ -28,10 +28,10 @@ const CanTp_RxNSduCfgType CanTp_RxSduCfg[CANTP_NUM_RX_SDUS] =
 
         /*
          * Flow Control:
-         * Diagnostic ECU -> eVCU
+         * eVCU -> Diagnostic ECU
          * CAN ID = 0x7E0
          */
-        .CanIfTxFcPduId = CanIfConf_Pdu_DiagRequest,
+        .CanIfTxFcPduId = CanIfConf_Pdu_DiagResponse,
 
         .PduRRxSduId = 0u,
 

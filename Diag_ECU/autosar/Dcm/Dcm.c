@@ -1,4 +1,5 @@
 #include "Dcm.h"
+#include "PduR_Dcm.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -189,6 +190,137 @@ BufReq_ReturnType Dcm_CopyTxData(
     return BUFREQ_OK;
 }
 
+static void Dcm_HandleDiagnosticSessionControl(void)
+{
+    uint8 response[6];
+
+    if (Dcm_RxLength != 2u)
+    {
+        return;
+    }
+
+    if ((Dcm_RxBuffer[1] != 0x01u) && (Dcm_RxBuffer[1] != 0x03u))
+    {
+        uint8 negativeResponse[3];
+
+        negativeResponse[0] = 0x7Fu;
+        negativeResponse[1] = 0x10u;
+        negativeResponse[2] = 0x12u;
+
+        if (Dcm_SetResponse(negativeResponse, 3u) == E_OK)
+        {
+            (void)Dcm_StartResponse();
+        }
+
+        return;
+    }
+
+    response[0] = 0x50u;
+    response[1] = Dcm_RxBuffer[1];
+
+    response[2] = 0x00u;
+    response[3] = 0x32u;
+
+    response[4] = 0x01u;
+    response[5] = 0xF4u;
+
+    if (Dcm_SetResponse(response, 6u) == E_OK)
+    {
+        (void)Dcm_StartResponse();
+    }
+}
+
+static void Dcm_HandleReadDataByIdentifier(void)
+{
+    uint8 response[20];
+    PduLengthType responseLength = 0u;
+    uint16 did;
+
+    /*
+     * UDS ReadDataByIdentifier:
+     *
+     * Request:
+     *   Byte 0    = SID 0x22
+     *   Byte 1..2 = DID
+     *
+     * Example:
+     *   22 F1 90
+     */
+
+    if (Dcm_RxLength != 3u)
+    {
+        uint8 negativeResponse[3];
+
+        negativeResponse[0] = 0x7Fu;
+        negativeResponse[1] = 0x22u;
+        negativeResponse[2] = 0x13u;   /* Incorrect Message Length */
+
+        if (Dcm_SetResponse(negativeResponse, 3u) == E_OK)
+        {
+            (void)Dcm_StartResponse();
+        }
+
+        return;
+    }
+
+    /* Convert DID from two bytes to uint16 */
+    did = ((uint16)Dcm_RxBuffer[1] << 8)
+        |  (uint16)Dcm_RxBuffer[2];
+
+    switch (did)
+    {
+        case 0xF190u:
+        {
+            /*
+             * VIN
+             *
+             * Positive response:
+             *   62 F1 90 <VIN>
+             *
+             * Demo VIN: SUZUKIK15B000001
+             */
+
+            static const uint8 Vin[] =
+            {
+                'S', 'U', 'Z', 'U', 'K', 'I',
+                'K', '1', '5', 'B', '0', '0',
+                '0', '0', '0', '0', '0', '1'
+            };
+
+            response[0] = 0x62u;
+            response[1] = 0xF1u;
+            response[2] = 0x90u;
+
+            memcpy(&response[3], Vin, sizeof(Vin));
+
+            responseLength = 3u + sizeof(Vin);
+
+            break;
+        }
+
+        default:
+        {
+            uint8 negativeResponse[3];
+
+            negativeResponse[0] = 0x7Fu;
+            negativeResponse[1] = 0x22u;
+            negativeResponse[2] = 0x31u;   /* Request Out Of Range */
+
+            if (Dcm_SetResponse(negativeResponse, 3u) == E_OK)
+            {
+                (void)Dcm_StartResponse();
+            }
+
+            return;
+        }
+    }
+
+    if (Dcm_SetResponse(response, responseLength) == E_OK)
+    {
+        (void)Dcm_StartResponse();
+    }
+}
+
 /**
  * DCM Diagnostic Request Processing
  */
@@ -197,12 +329,12 @@ void Dcm_ProcessRequest(void)
     uint8 sid;
     sid = Dcm_RxBuffer[0];
 
-    if (Dcm_RxOffset == 0u) {return;}
+    if (Dcm_RxLength == 0u) {return;}
 
     switch (sid)
     {
         case 0x10u:
-            Dcm_HandleDiagnosticSessionControl();
+        Dcm_HandleDiagnosticSessionControl();
         break;
 
         case 0x22u:
@@ -275,45 +407,7 @@ Std_ReturnType Dcm_StartResponse(void)
     return E_OK;
 }
 
-static void Dcm_HandleDiagnosticSessionControl(void)
-{
-    uint8 response[6];
 
-    if (Dcm_RxLength != 2u)
-    {
-        return;
-    }
-
-    if ((Dcm_RxBuffer[1] != 0x01u) && (Dcm_RxBuffer[1] != 0x03u))
-    {
-        uint8 negativeResponse[3];
-
-        negativeResponse[0] = 0x7Fu;
-        negativeResponse[1] = 0x10u;
-        negativeResponse[2] = 0x12u;
-
-        if (Dcm_SetResponse(negativeResponse, 3u) == E_OK)
-        {
-            (void)Dcm_StartResponse();
-        }
-
-        return;
-    }
-
-    response[0] = 0x50u;
-    response[1] = Dcm_RxBuffer[1];
-
-    response[2] = 0x00u;
-    response[3] = 0x32u;
-
-    response[4] = 0x01u;
-    response[5] = 0xF4u;
-
-    if (Dcm_SetResponse(response, 6u) == E_OK)
-    {
-        (void)Dcm_StartResponse();
-    }
-}
 
 void Dcm_TxConfirmation(PduIdType TxPduId, NotifResultType Result)
 {

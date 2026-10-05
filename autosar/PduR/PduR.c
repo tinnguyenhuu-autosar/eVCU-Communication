@@ -12,8 +12,11 @@
  */
 
 #include "PduR.h"
+#include "PduR_Dcm.h"
 #include "PduR_Com.h"
 #include "PduR_CanIf.h"
+
+#include "CanTp.h"
 
 #include "Std_Types.h"
 #include "ComStack_Types.h"

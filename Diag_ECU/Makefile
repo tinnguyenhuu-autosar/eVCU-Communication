@@ -53,6 +53,7 @@ INCLUDES := \
     -I./autosar/CanTp \
     -I./autosar/Dcm \
     -I./config \
+    -I../config \
 	-I../autosar/include \
     -I../autosar/Can \
     -I../autosar/Canif \
