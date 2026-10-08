@@ -56,7 +56,7 @@
       }
     },
     {
-      "name": "HALA SIM: COM",
+      "name": "COM",
       "compilerPath": "",
       "includePath": [
         "${workspaceFolder}/.vscode/hala-sim-sdk/include",

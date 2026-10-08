@@ -83,6 +83,7 @@ SRCS := \
     ../spl/src/stm32f10x_can.c \
     ../spl/src/misc.c \
     ../spl/src/system_stm32f10x.c \
+    ../spl/src/stm32f10x_usart.c \
     ../.vscode/hala-sim-generated/startup_stm32f103.c
 
 

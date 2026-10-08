@@ -16,7 +16,12 @@
 #include "PduR_Com.h"
 #include "PduR_CanIf.h"
 
+#ifdef PDUR_USE_CANTP
+#include "PduR_CanTp.h"
 #include "CanTp.h"
+#include "CanIf.h"
+#include "Dcm.h"
+#endif
 
 #include "Std_Types.h"
 #include "ComStack_Types.h"
@@ -57,7 +62,8 @@ static boolean s_RoutingEnabled = FALSE;
 /* =========================================================
  * Helper: tìm route COM TX
  * =======================================================*/
-static int32 prv_find_com_tx_route(PduIdType src)
+#ifdef PDUR_USE_COM
+ static int32 prv_find_com_tx_route(PduIdType src)
 {
     const PduR_Route1to1Type* tbl = (const PduR_Route1to1Type*)s_Cfg->ComTxRoutingTable;
     for (uint16 i = 0; i < PDUR_NUM_COM_TX_ROUTES; ++i)
@@ -69,6 +75,7 @@ static int32 prv_find_com_tx_route(PduIdType src)
     }
     return -1;
 }
+#endif
 
 /* =========================================================
  * Helper: tìm callback route
@@ -192,6 +199,7 @@ PduR_StateType PduR_GetState(void)
             return E_NOT_OK;
     }
 }
+    #endif /* PDUR_USE_COM*/
 
 
 /* =========================================================
@@ -201,6 +209,7 @@ PduR_StateType PduR_GetState(void)
  void PduR_CanIfRxIndication(PduIdType CanIfRxPduId, const PduInfoType* PduInfoPtr)
 {
 
+    #ifdef PDUR_USE_COM
     if (s_State == PDUR_UNINIT || !s_RoutingEnabled)
     {
         return;
@@ -225,6 +234,23 @@ PduR_StateType PduR_GetState(void)
     {
         Com_RxIndication(tbl[idx].DstPduId, PduInfoPtr);
     }
+
+    #elif defined(PDUR_USE_CANTP)
+
+    (void)CanIfRxPduId;
+
+    if(PduInfoPtr == NULL) {return;}
+
+    /**
+     * Diag ECU: CanIf => PduR => CanTp
+     */
+    CanTp_RxIndication(CanTpConf_CanTpRxNSdu_DiagRx, PduInfoPtr);
+
+    #else
+
+    (void)PduInfoPtr;
+
+    #endif
 }
 
 /* =========================================================
@@ -234,6 +260,7 @@ PduR_StateType PduR_GetState(void)
 
  void PduR_CanIfTxConfirmation(PduIdType CanIfTxPduId)
 {
+    #ifdef PDUR_USE_COM
 
     if (s_State == PDUR_UNINIT || !s_RoutingEnabled)
     {
@@ -251,13 +278,27 @@ PduR_StateType PduR_GetState(void)
     {
         Com_TxConfirmation(PduR_CanIfTxConfRoutes[idx].DstPduId);
     }
+
+    #elif defined(PDUR_USE_CANTP)
+
+    /**
+     * Diag ECU: CanIf => PduR => CanTp
+     */
+    if(CanIfTxPduId == CanIfConf_Pdu_DiagRequest)
+    { CanTp_TxConfirmation(CanTpConf_CanTpTxNSdu_DiagTx); }
+
+    #else
+
+    (void)CanIfTxPduId;
+
+    #endif
 }
 
 /* =========================================================
  * CanIf -> PduR -> COM : TriggerTransmit
  * =======================================================*/
 
-
+#ifdef PDUR_USE_COM
  Std_ReturnType PduR_CanIfTriggerTransmit(PduIdType CanIfTxPduId, PduInfoType* PduInfoPtr)
 {
     if (s_State == PDUR_UNINIT || !s_RoutingEnabled)

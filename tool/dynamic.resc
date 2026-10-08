@@ -2,25 +2,18 @@
 emulation CreateCANHub "canHub"
 
 mach create "eVCU"
-machine LoadPlatformDescription @debug/stm32f103_full.repl
+machine LoadPlatformDescription @E:/AUTOSAR_Tai_Lieu/Student_ECU/debug/stm32f103_full.repl
 connector Connect sysbus.can1 canHub
-sysbus.usart1 CreateFileBackend @/Users/phamvanvu/HALAAcademy/01_Courses/AUTOSAR_Classic/COM/tool/logs/evcu_uart.log true
-sysbus LoadELF @/Users/phamvanvu/HALAAcademy/01_Courses/AUTOSAR_Classic/COM/tool/evcu.elf
+sysbus.usart1 CreateFileBackend @E:/AUTOSAR_Tai_Lieu/Student_ECU/tool/logs/evcu_uart.log true
+sysbus LoadELF @E:/AUTOSAR_Tai_Lieu/Student_ECU/tool/evcu.elf
 machine StartGdbServer 3333
 
 mach create "Diag_ECU"
-machine LoadPlatformDescription @debug/stm32f103_full.repl
+machine LoadPlatformDescription @E:/AUTOSAR_Tai_Lieu/Student_ECU/debug/stm32f103_full.repl
 connector Connect sysbus.can1 canHub
-sysbus.usart1 CreateFileBackend @/Users/phamvanvu/HALAAcademy/01_Courses/AUTOSAR_Classic/COM/tool/logs/diag_uart.log true
-sysbus LoadELF @/Users/phamvanvu/HALAAcademy/01_Courses/AUTOSAR_Classic/COM/build/example/evcu_diag_ecu.elf
+sysbus.usart1 CreateFileBackend @E:/AUTOSAR_Tai_Lieu/Student_ECU/tool/logs/diag_uart.log true
+sysbus LoadELF @E:/AUTOSAR_Tai_Lieu/Student_ECU/Diag_ECU/diag_ecu.elf
 machine StartGdbServer 3334
 
-mach create "Com_ECU"
-machine LoadPlatformDescription @debug/stm32f103_full.repl
-connector Connect sysbus.can1 canHub
-sysbus.usart1 CreateFileBackend @/Users/phamvanvu/HALAAcademy/01_Courses/AUTOSAR_Classic/COM/tool/logs/com_uart.log true
-sysbus LoadELF @/Users/phamvanvu/HALAAcademy/01_Courses/AUTOSAR_Classic/COM/build/example/evcu_com_ecu.elf
-machine StartGdbServer 3335
-
 logLevel 3 sysbus
-start
+# start

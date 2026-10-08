@@ -2,11 +2,11 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "HALA SIM: Debug COM",
+      "name": "Debug COM",
       "type": "hala-sim-zmu",
       "request": "launch",
       "program": "${workspaceFolder}/build/hala-sim/bluepill1.elf",
-      "hsim": "file:///e%3A/AUTOSAR_Tai_Lieu/COM/COM/simulator/com.hsim",
+      "hsim": "file:///e%3A/AUTOSAR_Tai_Lieu/Student_ECU/simulator/com.hsim",
       "targetId": "bluepill1",
       "buildBeforeDebug": true,
       "stopOnEntry": true,
