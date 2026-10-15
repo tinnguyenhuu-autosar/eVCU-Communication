@@ -1,0 +1,468 @@
+HALA_SIM 1.0
+
+project "Student_ECU" {
+  id "student-ecu";
+  workspaceRoot ".";
+  description "HALA SIM workspace simulator";
+  createdAt "2026-09-26T12:36:07.759Z";
+  updatedAt "2026-10-09T09:02:09.177Z";
+}
+
+scene {
+  id "student-ecu-scene";
+  size 1650 900;
+}
+
+component bluepill1 {
+  type "bluepill";
+  name "STM32F103 Blue Pill 1";
+  position 533 25;
+  property configuredPins [];
+  property isMcu true;
+}
+
+mapping bluepill1-auto-1 {
+  component bluepill1;
+  semantic "source";
+  file "Com_ECU/autosar/Com/Com.c";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-2 {
+  component bluepill1;
+  semantic "source";
+  file "Com_ECU/config/Com_Cfg.c";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-3 {
+  component bluepill1;
+  semantic "main";
+  file "Com_ECU/main.c";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-4 {
+  component bluepill1;
+  semantic "source";
+  file "Diag_ECU/autosar/CanTp/CanTp.c";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-5 {
+  component bluepill1;
+  semantic "source";
+  file "Diag_ECU/autosar/Dcm/Dcm.c";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-6 {
+  component bluepill1;
+  semantic "source";
+  file "Diag_ECU/config/CanTp_Cfg.c";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-7 {
+  component bluepill1;
+  semantic "source";
+  file "Diag_ECU/main.c";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-8 {
+  component bluepill1;
+  semantic "source";
+  file "autosar/Can/Can.c";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-9 {
+  component bluepill1;
+  semantic "source";
+  file "autosar/Canif/CanIf.c";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-10 {
+  component bluepill1;
+  semantic "source";
+  file "autosar/PduR/PduR.c";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-11 {
+  component bluepill1;
+  semantic "source";
+  file "config/CanIf_Cfg.c";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-12 {
+  component bluepill1;
+  semantic "source";
+  file "config/Can_Cfg.c";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-13 {
+  component bluepill1;
+  semantic "source";
+  file "config/PduR_Cfg.c";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-14 {
+  component bluepill1;
+  semantic "source";
+  file "spl/src/misc.c";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-15 {
+  component bluepill1;
+  semantic "source";
+  file "spl/src/stm32f10x_adc.c";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-16 {
+  component bluepill1;
+  semantic "source";
+  file "spl/src/stm32f10x_can.c";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-17 {
+  component bluepill1;
+  semantic "source";
+  file "spl/src/stm32f10x_dma.c";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-18 {
+  component bluepill1;
+  semantic "source";
+  file "spl/src/stm32f10x_exti.c";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-19 {
+  component bluepill1;
+  semantic "source";
+  file "spl/src/stm32f10x_gpio.c";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-20 {
+  component bluepill1;
+  semantic "source";
+  file "spl/src/stm32f10x_i2c.c";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-21 {
+  component bluepill1;
+  semantic "source";
+  file "spl/src/stm32f10x_rcc.c";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-22 {
+  component bluepill1;
+  semantic "source";
+  file "spl/src/stm32f10x_spi.c";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-23 {
+  component bluepill1;
+  semantic "source";
+  file "spl/src/stm32f10x_tim.c";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-24 {
+  component bluepill1;
+  semantic "source";
+  file "spl/src/stm32f10x_usart.c";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-25 {
+  component bluepill1;
+  semantic "source";
+  file "spl/src/system_stm32f10x.c";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-26 {
+  component bluepill1;
+  semantic "source";
+  file "Com_ECU/autosar/Com/Com.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-27 {
+  component bluepill1;
+  semantic "source";
+  file "Com_ECU/config/Com_Cfg.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-28 {
+  component bluepill1;
+  semantic "source";
+  file "Diag_ECU/autosar/CanTp/CanTp.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-29 {
+  component bluepill1;
+  semantic "source";
+  file "Diag_ECU/autosar/Dcm/Dcm.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-30 {
+  component bluepill1;
+  semantic "source";
+  file "Diag_ECU/config/CanTp_Cfg.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-31 {
+  component bluepill1;
+  semantic "source";
+  file "Diag_ECU/config/Dcm_Cfg.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-32 {
+  component bluepill1;
+  semantic "source";
+  file "autosar/Can/Can.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-33 {
+  component bluepill1;
+  semantic "source";
+  file "autosar/Canif/CanIf.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-34 {
+  component bluepill1;
+  semantic "source";
+  file "autosar/PduR/PduR.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-35 {
+  component bluepill1;
+  semantic "source";
+  file "autosar/PduR/PduR_CanIf.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-36 {
+  component bluepill1;
+  semantic "source";
+  file "autosar/PduR/PduR_CanTp.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-37 {
+  component bluepill1;
+  semantic "source";
+  file "autosar/PduR/PduR_Com.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-38 {
+  component bluepill1;
+  semantic "source";
+  file "autosar/PduR/PduR_Dcm.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-39 {
+  component bluepill1;
+  semantic "source";
+  file "autosar/PduR/PduR_Type.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-40 {
+  component bluepill1;
+  semantic "source";
+  file "autosar/include/Can_GeneralTypes.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-41 {
+  component bluepill1;
+  semantic "source";
+  file "autosar/include/ComStack_Types.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-42 {
+  component bluepill1;
+  semantic "source";
+  file "autosar/include/Std_Types.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-43 {
+  component bluepill1;
+  semantic "source";
+  file "bsp/cmsis/cmsis_compiler.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-44 {
+  component bluepill1;
+  semantic "source";
+  file "bsp/cmsis/cmsis_gcc.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-45 {
+  component bluepill1;
+  semantic "source";
+  file "bsp/cmsis/cmsis_version.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-46 {
+  component bluepill1;
+  semantic "source";
+  file "bsp/cmsis/core_cm3.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-47 {
+  component bluepill1;
+  semantic "source";
+  file "config/CanIf_Cfg.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-48 {
+  component bluepill1;
+  semantic "source";
+  file "config/Can_Cfg.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-49 {
+  component bluepill1;
+  semantic "source";
+  file "config/PduR_Cfg.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-50 {
+  component bluepill1;
+  semantic "source";
+  file "spl/inc/misc.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-51 {
+  component bluepill1;
+  semantic "source";
+  file "spl/inc/stm32f10x.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-52 {
+  component bluepill1;
+  semantic "source";
+  file "spl/inc/stm32f10x_adc.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-53 {
+  component bluepill1;
+  semantic "source";
+  file "spl/inc/stm32f10x_can.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-54 {
+  component bluepill1;
+  semantic "source";
+  file "spl/inc/stm32f10x_conf.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-55 {
+  component bluepill1;
+  semantic "source";
+  file "spl/inc/stm32f10x_dma.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-56 {
+  component bluepill1;
+  semantic "source";
+  file "spl/inc/stm32f10x_exti.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-57 {
+  component bluepill1;
+  semantic "source";
+  file "spl/inc/stm32f10x_gpio.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-58 {
+  component bluepill1;
+  semantic "source";
+  file "spl/inc/stm32f10x_i2c.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-59 {
+  component bluepill1;
+  semantic "source";
+  file "spl/inc/stm32f10x_rcc.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-60 {
+  component bluepill1;
+  semantic "source";
+  file "spl/inc/stm32f10x_spi.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-61 {
+  component bluepill1;
+  semantic "source";
+  file "spl/inc/stm32f10x_tim.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-62 {
+  component bluepill1;
+  semantic "source";
+  file "spl/inc/stm32f10x_usart.h";
+  workspace "Student_ECU";
+}
+
+mapping bluepill1-auto-63 {
+  component bluepill1;
+  semantic "source";
+  file "spl/inc/system_stm32f10x.h";
+  workspace "Student_ECU";
+}
+
+view main {
+  zoom 1;
+  pan 0 0;
+}

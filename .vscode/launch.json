@@ -2,18 +2,18 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Debug COM",
+      "name": "HALA SIM: Debug Student_ECU",
       "type": "hala-sim-zmu",
       "request": "launch",
       "program": "${workspaceFolder}/build/hala-sim/bluepill1.elf",
-      "hsim": "file:///e%3A/AUTOSAR_Tai_Lieu/Student_ECU/simulator/com.hsim",
+      "hsim": "file:///e%3A/AUTOSAR_Tai_Lieu/Student_ECU/simulator/student_ecu.hsim",
       "targetId": "bluepill1",
       "buildBeforeDebug": true,
       "stopOnEntry": true,
       "initialBreakpoints": [
         {
-          "file": "main.c",
-          "line": 414
+          "file": "Com_ECU/main.c",
+          "line": 345
         }
       ],
       "halaSimManaged": true
@@ -40,6 +40,28 @@
       "executable": "${workspaceFolder}/build/example/lin_tx_demo.elf",
       "cwd": "${workspaceFolder}",
       "preLaunchTask": "Renode: Prepare & Run",
+      "runToEntryPoint": "main"
+    },
+    {
+      "name": "Renode: Debug COM_ECU (Port 3335)",
+      "type": "cortex-debug",
+      "request": "launch",
+      "servertype": "external",
+      "gdbPath": "arm-none-eabi-gdb",
+      "gdbTarget": "127.0.0.1:3335",
+      "executable": "${workspaceFolder}/Com_ECU/com_ecu.elf",
+      "cwd": "${workspaceFolder}",
+      "runToEntryPoint": "main"
+    },
+    {
+      "name": "Renode: Debug Diag_ECU (Port 3334)",
+      "type": "cortex-debug",
+      "request": "launch",
+      "servertype": "external",
+      "gdbPath": "arm-none-eabi-gdb",
+      "gdbTarget": "127.0.0.1:3334",
+      "executable": "${workspaceFolder}/Diag_ECU/diag_ecu.elf",
+      "cwd": "${workspaceFolder}",
       "runToEntryPoint": "main"
     },
     {

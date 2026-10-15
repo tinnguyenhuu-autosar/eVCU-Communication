@@ -1,0 +1,8 @@
+
+mach create "Diag_ECU"
+machine LoadPlatformDescription @E:/AUTOSAR_Tai_Lieu/Student_ECU/debug/stm32f103_full.repl
+sysbus.usart1 CreateFileBackend @E:/AUTOSAR_Tai_Lieu/Student_ECU/tool/logs/diag_uart.log true
+sysbus LoadELF @E:/AUTOSAR_Tai_Lieu/Student_ECU/Diag_ECU/diag_ecu.elf
+machine StartGdbServer 3334
+logLevel 3 sysbus
+start

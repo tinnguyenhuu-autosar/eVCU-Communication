@@ -1,0 +1,8 @@
+
+mach create "COM_ECU"
+machine LoadPlatformDescription @E:/AUTOSAR_Tai_Lieu/Student_ECU/debug/stm32f103_full.repl
+sysbus.usart1 CreateFileBackend @E:/AUTOSAR_Tai_Lieu/Student_ECU/tool/logs/com_uart.log true
+sysbus LoadELF @E:/AUTOSAR_Tai_Lieu/Student_ECU/Com_ECU/com_ecu.elf
+machine StartGdbServer 3335
+logLevel 3 sysbus
+start

@@ -176,7 +176,7 @@
       "dependsOrder": "sequence"
     },
     {
-      "label": "HALA SIM: COM Build",
+      "label": "HALA SIM: Student_ECU Build",
       "type": "hala-sim",
       "action": "build",
       "project": "${workspaceFolder}",
@@ -188,7 +188,7 @@
       "halaSimManaged": true
     },
     {
-      "label": "HALA SIM: COM Clean",
+      "label": "HALA SIM: Student_ECU Clean",
       "type": "hala-sim",
       "action": "clean",
       "project": "${workspaceFolder}",
@@ -196,7 +196,7 @@
       "halaSimManaged": true
     },
     {
-      "label": "HALA SIM: COM Rebuild",
+      "label": "HALA SIM: Student_ECU Rebuild",
       "type": "hala-sim",
       "action": "rebuild",
       "project": "${workspaceFolder}",

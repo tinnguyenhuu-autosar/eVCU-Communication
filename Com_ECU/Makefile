@@ -19,6 +19,7 @@ CFLAGS += -ffunction-sections -fdata-sections
 CFLAGS += -DSTM32F10X_MD
 CFLAGS += -DUSE_STDPERIPH_DRIVER
 CFLAGS += -DRUN_ON_RENODE
+CFLAGS += -DPDUR_USE_COM
 
 LDFLAGS = -T ../.vscode/hala-sim-generated/stm32f103c8.ld
 LDFLAGS += --specs=nano.specs
@@ -64,8 +65,12 @@ SRCS = \
 # Object files
 # ============================================================
 
-OBJS = $(patsubst %.c,$(BUILD_DIR)/%.o,$(SRCS))
-OBJS += $(patsubst %.s,$(BUILD_DIR)/%.o,$(ASM_SRCS))
+
+obj_for = $(if $(filter ../%,$(1)),\
+	$(BUILD_DIR)/shared/$(patsubst ../%,%,$(1:.c=.o)),\
+	$(BUILD_DIR)/$(1:.c=.o))
+
+OBJS = $(foreach src,$(filter %.c,$(SRCS)),$(call obj_for,$(src)))
 
 # ============================================================
 # Default target
@@ -90,6 +95,10 @@ $(TARGET).elf: $(OBJS)
 # Compile C
 # ============================================================
 
+$(BUILD_DIR)/shared/%.o: ../%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) $(INC) -c $< -o $@
+
 $(BUILD_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(INC) -c $< -o $@
@@ -97,6 +106,10 @@ $(BUILD_DIR)/%.o: %.c
 # ============================================================
 # Compile Assembly
 # ============================================================
+
+$(BUILD_DIR)/shared/%.o: ../%.s
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(BUILD_DIR)/%.o: %.s
 	@mkdir -p $(dir $@)

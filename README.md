@@ -651,38 +651,12 @@ pio run -t upload
 
 ---
 
-# 18. Các warning hiện tại
+# 18. Test riêng lẻ từng ecu
+Test COM_ECU
+include @E:/AUTOSAR_Tai_Lieu/Student_ECU/tool/com_ecu.resc
 
-Build `Com_ECU` hiện có một số warning không làm build thất bại:
-
-### `Can.c`
-
-```text
-unused variable 'rxMsg'
-unused variable 'pduInfo'
-```
-
-### `CanIf.c`
-
-```text
-unused variable 'CanPdu'
-```
-
-### `PduR_Cfg.c`
-
-```text
-excess elements in array initializer
-```
-
-Warning cuối liên quan đến số lượng phần tử của:
-
-```text
-PduR_CanIfTrigTxRoutes
-```
-
-Cần kiểm tra lại khi hoàn thiện cấu hình PduR/COM.
-
----
+Test Diag_ECU
+include @E:/AUTOSAR_Tai_Lieu/Student_ECU/tool/diag_ecu.resc
 
 # 19. Trạng thái hiện tại
 

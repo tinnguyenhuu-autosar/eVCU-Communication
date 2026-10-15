@@ -21,8 +21,8 @@ extern "C"
 {
 #endif
 
-#include "Std_types.h"
-#include "Comstack_Types.h"
+#include "Std_Types.h"
+#include "ComStack_Types.h"
 
 /*Số lượng */
 #define COM_NUM_IPDUS       (4u)
